@@ -1,0 +1,92 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Complaints</title>
+    <link rel="stylesheet" href="{% static 'src/css/Page4.css' %}">
+    <link rel="stylesheet" href="{% static 'src/css/Head.css' %}">
+    <link rel="stylesheet" href="{% static 'src/css/Navbar.css' %}">
+</head>
+<body>
+    <div class="complaints-container">
+        <header>
+            {% include 'complaints/Head.html' %}
+            {% include 'complaints/Navbar.html' %}
+        </header>
+        <section>
+            <h2>Student Complaints</h2>
+            <div class="legend">
+                <div>
+                    <span class="yellow-circle"></span> Send to EMS: Approves the complaint and sends it directly to EMS
+                </div>
+                <div>
+                    <span class="green-circle"></span> Approve: Approves the complaint but does not send to EMS
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sr. No</th>
+                        <th>IST</th>
+                        <th>Name</th>
+                        <th>BITS ID</th>
+                        <th>Contact No.</th>
+                        <th>Room No.</th>
+                        <th>Area</th>
+                        <th>Requirement</th>
+                        <th>Category</th>
+                        <th>Time</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in complaints %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ complaint.IST }}</td>
+                            <td>{{ complaint.name }}</td>
+                            <td>{{ complaint.bitsId }}</td>
+                            <td>{{ complaint.contact_no }}</td>
+                            <td>{{ complaint.room }}</td>
+                            <td>{{ complaint.area }}</td>
+                            <td>{{ complaint.requirement }}</td>
+                            <td>{{ complaint.category }}</td>
+                            <td>{{ complaint.preferred_time }}</td>
+                            <td>{{ complaint.comments }}</td>
+                            <td>
+                                <span>{{ complaint.status }}</span>
+                                <button class="yellow-button" {% if not complaint.status|is_pending %}disabled{% endif %} onclick="updateStatus({{ complaint.id }}, 'Sent to EMS')">Send to EMS</button>
+                                <button class="green-button" {% if not complaint.status|is_pending %}disabled{% endif %} onclick="updateStatus({{ complaint.id }}, 'Approved')">Approve</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <script>
+        function updateStatus(id, newStatus) {
+            fetch(`/api/update-complaint-status/${id}/`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ status: newStatus })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to update status');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+.complaints-container {
+    font-family: Arial, sans-serif;
+    /* padding: 20px; */
+    text-align: center;
+  }
+  
+  header {
+    background-color: #f4f4f4;
+    padding: 10px;
+  }
+  
+  h2 {
+    margin-top: 20px;
+  }
+  
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 20px;
+  }
+  
+  .yellow-circle,
+  .green-circle {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    border-radius: 50%;
+  }
+  
+  .yellow-circle {
+    background-color: yellow;
+  }
+  
+  .green-circle {
+    background-color: green;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  
+  table th,
+  table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .yellow-button {
+    background-color: yellow;
+    border: none;
+    color: black;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  
+  .green-button {
+    background-color: green;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+  
